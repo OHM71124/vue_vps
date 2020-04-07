@@ -15,4 +15,8 @@ npm run dev
 npm run build
 ```
 
+This is application developed in Vue JS to sell email hosting, VPS and Dedicate Server.
+
+```
+
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
