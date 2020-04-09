@@ -7,17 +7,17 @@
             <h3 class="modal-title">Login</h3>
           </div>
           <div class="modal-body">
-            <form method="post" action="https://www.yourwebsite.com/client/dologin.php">
+            <!--<form method="post" action="https://www.yourwebsite.com/client/dologin.php">-->
               <div class="form-group">
-                <input class="form-control input-lg" type="text" name="username" size="50" placeholder="Email ID"/>
+                <input class="form-control input-lg" type="text" ref="txtusername" name="username" size="50" placeholder="Email ID"/>
               </div>
               <div class="form-group">
-                <input class="form-control input-lg" type="password" name="password" size="20" placeholder="Password"/>
+                <input class="form-control input-lg" type="password" ref="txtpassword" name="password" size="20" placeholder="Password"/>
               </div>
               <div class="form-group">
-                <input type="submit" value="Login to my Account" class="btn btn-success btn-lg"/>
+                <input type="submit" value="Login to my Account" v-on:click="loginUser()" class="btn btn-success btn-lg"/>
               </div>
-            </form>
+            <!--</form>-->
           </div>
         </div>
         <!-- /.modal-content -->
@@ -32,7 +32,9 @@
         data() {
           return {
             isActive: false,
-            displayvalue:'none'
+            displayvalue:'none',
+            username: "",
+            password: ""
           }
         },
         mounted() {
@@ -47,6 +49,34 @@
           closeModal(){
             this.isActive = false;
             this.displayvalue = 'none'
+          },
+          loginUser(){
+
+            this.username = this.$refs.txtusername.value;
+            this.password = this.$refs.txtpassword.value;
+            if(this.username === "" || this.password === ""){
+              console.log("field empty");
+              return false;
+            }
+
+            if(this.username === "amit" || this.password === "amit123"){
+              console.log("successful login");
+              this.$session.start();
+              this.$session.set('username', this.username);
+              this.closeModal();
+              EventBus.$emit("emitisActiveLoginLogout", false);
+              //this.$router.push('/').catch(err => {console.log(err)})
+            }
+            else{
+              console.log("incorrect login");
+              return false;
+            }
+
+            console.log(this.$refs.txtusername.value);
+            console.log(this.$refs.txtpassword.value);
+
+
+
           }
         }
     }

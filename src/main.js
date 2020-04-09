@@ -3,7 +3,13 @@ import App from './App.vue'
 import VueRouter from "vue-router"
 import routes from './routes'
 import LoadScript from 'vue-plugin-load-script';
+import VueSession from 'vue-session'
 
+//Vue.use(VueSession)
+var options = {
+    persist: true
+}
+Vue.use(VueSession, options)
 
 
 window.$ = window.jQuery = require('jquery');

@@ -12,14 +12,10 @@
             <li class="active"><a href=""><router-link to="/">HOME</router-link></a></li>
             <li class="hidden-sm"><a href="#"><router-link to="/feature">FEATURES</router-link></a></li>
             <li><a href=""><router-link to="/pricing">PRICING</router-link></a></li>
-            <li class="dropdown"> <a href="" class="dropdown-toggle" data-toggle="dropdown">BLOG <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href=""><router-link to="/blog">Blog List</router-link></a></li>
-                <li><a href=""><router-link to="/blog">Single Blog page</router-link></a></li>
-              </ul>
-            </li>
+            <li><a href=""><router-link to="/blog">Blog</router-link></a></li>
             <li><a href="#"><router-link to="/contact">CONTACT</router-link></a></li>
-            <li><a href="" role="button" @click.prevent="activateModal()">Login</a></li>
+            <li v-show="isActiveLoginLogout"><a href="" role="button" @click.prevent="activateModal()">Login</a></li>
+            <li v-show="!isActiveLoginLogout"><a href="" role="button" @click.prevent="logoutMethod()">Logout</a></li>
           </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -33,13 +29,33 @@
     export default {
         data() {
           return{
-
+            isActiveLoginLogout: true
           }
         },
         methods: {
-            activateModal() {
-              EventBus.$emit("is_active", true);
+          activateModal() {
+            EventBus.$emit("is_active", true);
+          },
+
+          logoutMethod() {
+            if (this.$session.has("username")) {
+              console.log('Username:'+this.$session.get("username"));
+              this.$session.remove("username");
+              this.isActiveLoginLogout = true
+            }
           }
+
+        },
+
+        mounted(){
+          if (this.$session.has("username")) {
+            console.log('Username:'+this.$session.get("username"));
+            this.isActiveLoginLogout = false
+          }
+
+          EventBus.$on("emitisActiveLoginLogout", data=>{
+            this.isActiveLoginLogout = data;
+          })
         }
     }
 </script>
